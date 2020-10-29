@@ -1,0 +1,10 @@
+server:
+  port: 8080
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+logging:
+  level:
+    com.liming.mapper: debug
+spring:
+  profiles:
+    active: dev

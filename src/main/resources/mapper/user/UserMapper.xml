@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liming.mapper.user.UserMapper">
+
+    <resultMap id="userInfo" type="com.liming.entity.user.UserEntity">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="phone_num" jdbcType="VARCHAR" property="phoneNum"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickName"/>
+        <result column="creattime" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="creat_userid" jdbcType="BIGINT" property="creatUserId"/>
+        <result column="creat_nickname" jdbcType="VARCHAR" property="CreatNickName"/>
+    </resultMap>
+
+    <select id="queryByUserName" parameterType="java.lang.String" resultMap="userInfo">
+        SELECT
+            user_id, username, PASSWORD, phone_num, email, nickname, creattime, creat_userid, creat_nickname
+        FROM
+            da_user
+        WHERE
+            username = #{username }
+    </select>
+
+</mapper>
