@@ -129,7 +129,7 @@
     </appender>
 
 
-    <root level="debug">
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="DEBUG_FILE"/>
         <appender-ref ref="INFO_FILE"/>
@@ -137,14 +137,14 @@
         <appender-ref ref="ERROR_FILE"/>
     </root>
 
-    <logger name="com.liming" level="debug" additivity="false">
+    <logger name="com.liming" level="info" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="DEBUG_FILE"/>
         <appender-ref ref="INFO_FILE"/>
         <appender-ref ref="WARN_FILE"/>
         <appender-ref ref="ERROR_FILE"/>
     </logger>
-    <logger name="org.wdk" level="debug" additivity="false">
+    <logger name="org.wdk" level="info" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="DEBUG_FILE"/>
         <appender-ref ref="INFO_FILE"/>
