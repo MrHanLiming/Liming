@@ -3,6 +3,7 @@ package com.liming.controller.apublic;
 import com.liming.commons.resultformat.Result;
 import com.liming.config.LimingConfig;
 import com.liming.totalenum.pictureupload.PictureSuffixEnum;
+import com.liming.util.CosClientUtil;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.model.PutObjectRequest;
 import org.slf4j.Logger;
@@ -22,8 +23,6 @@ public class PublicController {
 
     @Autowired
     private LimingConfig limingConfig;
-    @Autowired
-    private COSClient cosClient;
 
     @PostMapping("/uploadDocument")
     public String uploadDocument(MultipartFile file){
@@ -53,7 +52,7 @@ public class PublicController {
             toFile = File.createTempFile("tmp", null);
             file.transferTo(toFile);
             PutObjectRequest putObjectRequest = new PutObjectRequest(limingConfig.getBucketName(), path.toString(), toFile);
-            cosClient.putObject(putObjectRequest);
+            CosClientUtil.uploadDocument(putObjectRequest);
             //删除临时储存
             toFile.deleteOnExit();
             return Result.success("上传成功",path.toString()).toJsonString();
@@ -67,7 +66,7 @@ public class PublicController {
     public String deleteDocument(@RequestParam(value = "documentPath",required = true) String documentPath){
         String bucketName = limingConfig.getBucketName();
         String key = documentPath;
-        cosClient.deleteObject(bucketName, key);
+        CosClientUtil.deleteDocument(bucketName,key);
         return Result.success().toJsonString();
     };
 }
