@@ -21,6 +21,18 @@
             da_user
         WHERE
             username = #{username }
+        AND state = '1'
+    </select>
+
+    <select id="queryByUsernamePassword" parameterType="com.liming.entity.user.UserEntity" resultMap="userInfo">
+        SELECT
+            user_id, username, PASSWORD, phone_num, email, nickname, creattime, creat_userid, creat_nickname
+        FROM
+            da_user
+        WHERE
+            username = #{username }
+        AND password = #{password }
+        AND state = '1'
     </select>
 
 </mapper>

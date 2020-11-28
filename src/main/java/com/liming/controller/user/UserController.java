@@ -16,9 +16,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //用户登录
     @PostMapping("/userLogin")
-    public Result<UserEntity> userLogin(@RequestBody UserEntity userEntity){
-        return Result.success("",userService.queryByUserName(userEntity.getUsername()));
+    public Result<UserEntity> userLogin(@RequestBody UserEntity userEntity) throws Exception {
+        if (userEntity == null)
+            return Result.error("用户信息不能为空");
+        Result userInfo = userService.userLogin(userEntity);
+        return userInfo;
     }
 
 }

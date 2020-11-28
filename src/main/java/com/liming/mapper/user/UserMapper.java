@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
     UserEntity queryByUserName(@Param("username") String username);
+    UserEntity queryByUsernamePassword(UserEntity userEntity);
 }
