@@ -15,6 +15,6 @@ public class UserEntity {
     private String nickName;
     private Timestamp creatTime;
     private String creatUserId;
-    private String CreatNickName;
+    private String creatNickName;
 
 }

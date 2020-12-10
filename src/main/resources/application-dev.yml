@@ -4,16 +4,26 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: tianxiadi1
-    dbcp2:
-      #验证连接的有效性  此处已定要设为true，不然 time-between-eviction-runs-millis 不起作用
-      test-while-idle: true
-      #获取连接时候验证，如果无效，则生成新的连接使用，会影响性能  （此处设为true最为保险，但是为影响性能）
-      test-on-borrow: true
-      validation-query: SELECT 1 FROM DUAL
-      #空闲连接回收的时间间隔，与test-while-idle一起使用，设置5分钟
-      time-between-eviction-runs-millis: 300000
-      #连接池空闲连接的有效时间 ，设置30分钟
-      min-evictable-idle-time-millis: 1800000
+#    dbcp2:
+#      #验证连接的有效性  此处已定要设为true，不然 time-between-eviction-runs-millis 不起作用
+#      test-while-idle: true
+#      #获取连接时候验证，如果无效，则生成新的连接使用，会影响性能  （此处设为true最为保险，但是为影响性能）
+#      test-on-borrow: true
+#      validation-query: SELECT 1 FROM DUAL
+#      #空闲连接回收的时间间隔，与test-while-idle一起使用，设置5分钟
+#      time-between-eviction-runs-millis: 300000
+#      #连接池空闲连接的有效时间 ，设置30分钟
+#      min-evictable-idle-time-millis: 1800000
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 500000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
 liming:
   #腾讯cos储存桶名称
   bucketName: cos-1257120178

@@ -3,15 +3,28 @@
 <mapper namespace="com.liming.mapper.user.UserMapper">
 
     <resultMap id="userInfo" type="com.liming.entity.user.UserEntity">
-        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="phone_num" jdbcType="VARCHAR" property="phoneNum"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="nickname" jdbcType="VARCHAR" property="nickName"/>
         <result column="creattime" jdbcType="TIMESTAMP" property="creatTime"/>
-        <result column="creat_userid" jdbcType="BIGINT" property="creatUserId"/>
-        <result column="creat_nickname" jdbcType="VARCHAR" property="CreatNickName"/>
+        <result column="creat_userid" jdbcType="INTEGER" property="creatUserId"/>
+        <result column="creat_nickname" jdbcType="VARCHAR" property="creatNickName"/>
+    </resultMap>
+
+    <resultMap id="menuInfo" type="com.liming.entity.user.MenuEntity">
+        <id column="menu_id" jdbcType="INTEGER" property="menuId"/>
+        <result column="menu_title" jdbcType="VARCHAR" property="menuTitle"/>
+        <result column="menu_level" jdbcType="VARCHAR" property="menuLevel"/>
+        <result column="parent_uuid" jdbcType="INTEGER" property="parentUuid"/>
+        <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+        <result column="menu_path" jdbcType="VARCHAR" property="menuPath"/>
+        <result column="creattime" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="creat_userid" jdbcType="INTEGER" property="creatUserId"/>
+        <result column="creat_nickname" jdbcType="VARCHAR" property="creatNickName"/>
+        <result column="menu_component" jdbcType="VARCHAR" property="menuComponent"/>
     </resultMap>
 
     <select id="queryByUserName" parameterType="java.lang.String" resultMap="userInfo">
@@ -32,7 +45,44 @@
         WHERE
             username = #{username }
         AND password = #{password }
-        AND state = '1'
+        AND state = TRUE
+    </select>
+
+    <sql id="menuSql">
+        dm.menu_id,
+        dm.menu_title,
+        dm.menu_level,
+        dm.parent_uuid,
+        dm.menu_icon,
+        dm.menu_path,
+        dm.creattime,
+        dm.creat_userid,
+        dm.creat_nickname,
+        dm.menu_component
+    </sql>
+    
+    <select id="queryMenuByUserId" parameterType="java.lang.Integer" resultMap="menuInfo">
+        SELECT
+            <include refid="menuSql"/>
+        FROM
+            da_menu dm
+        INNER JOIN rs_auth_menu ram ON dm.menu_id = ram.menu_id
+        INNER JOIN rs_user_role rur ON ram.auth_id = rur.role_id
+        WHERE
+            dm.state = TRUE
+        AND ram.state = TRUE
+        AND rur.state = TRUE
+        AND rur.user_id = #{userId }
+        UNION
+            SELECT
+                <include refid="menuSql"/>
+            FROM
+                da_menu dm
+            INNER JOIN rs_auth_menu ram ON dm.menu_id = ram.menu_id
+            WHERE
+                dm.state = TRUE
+            AND ram.state = TRUE
+            AND ram.auth_id = #{userId }
     </select>
 
 </mapper>
