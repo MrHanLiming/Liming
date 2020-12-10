@@ -1,10 +1,15 @@
 package com.liming.commons.aop;
 
+import com.liming.commons.exception.exceptionhandler.resultbody.ResultBody;
+import com.liming.commons.interfacea.AuthLogin;
+import com.liming.commons.resultformat.Result;
 import com.liming.config.LimingConfig;
+import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,21 +32,27 @@ public class Interceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
-        if (!limingConfig.isCheckIp()){
-            return true;
-        }
-        String userAddress = request.getRemoteAddr();
-        String[] ipList = limingConfig.getWhiteRoster().split(",");
-        if (ipList != null){
-            for (String address : ipList){
-                if (address.equals(userAddress)){
-                    return true;
-                }
+        //是否开启ip校验
+        if (limingConfig.isCheckIp()){
+            String userAddress = request.getRemoteAddr();
+            String[] ipList = limingConfig.getWhiteRoster().split(",");
+            if (!this.checkIp(ipList,userAddress)){
+                response.setStatus(HttpStatus.SC_NOT_FOUND);
+                LOGGER.error("拦截ip:  "+userAddress);
+                return false;
             }
         }
-        response.setStatus(404);
-        LOGGER.error("拦截ip:  "+userAddress);
-        return false;
+        //校验登录
+        if (!this.checkLogin(handler)){
+            response.setStatus(HttpStatus.SC_OK);
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/json; charset=utf-8");
+            response.getWriter().write(ResultBody.LoginError().toJsonString());
+            response.getWriter().flush();
+            response.getWriter().close();
+            return false;
+        }
+        return true;
     }
 
     /*请求结束执行*/
@@ -56,4 +67,36 @@ public class Interceptor implements HandlerInterceptor {
                                 Object handler, @Nullable Exception ex) throws Exception {
     }
 
+    //验证ip
+    private boolean checkIp(String[] ipList,String userAddress){
+        if (ipList != null){
+            for (String address : ipList){
+                if (!address.equals(userAddress)){
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+       校验是否已经登录
+     */
+    private boolean checkLogin(Object handler){
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            //拦截所有的请求方法也就是方法上的注解，如果needLogin为false及返回true
+            AuthLogin authLoginMethod = handlerMethod.getMethod().getAnnotation(AuthLogin.class);
+            if(authLoginMethod != null && !authLoginMethod.needLogin()){
+                return true;
+            }
+            //拦截整个模块也就是所有类上的注解，同理
+            AuthLogin authLoginClass = handlerMethod.getBeanType().getAnnotation(AuthLogin.class);
+            if(authLoginClass != null && !authLoginClass.needLogin()){
+                return true;
+            }
+            //进行认证
+        }
+        return true;
+    }
 }

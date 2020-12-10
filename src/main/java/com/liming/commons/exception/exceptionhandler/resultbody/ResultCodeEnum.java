@@ -6,7 +6,8 @@ public enum ResultCodeEnum {
     HTTPINTERIOR("500","服务器内部错误"),
     NOTACCESS("403","禁止访问"),
     NOTFIND("404","未找到"),
-    HTTPIERROR("400","错误的请求");
+    HTTPIERROR("400","错误的请求"),
+    LOGINERROR("-999","未登录认证");
 
     private String retCode;
     private String retMsg;

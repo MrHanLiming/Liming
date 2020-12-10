@@ -1,5 +1,7 @@
 package com.liming.commons.exception.exceptionhandler.resultbody;
 
+import com.alibaba.fastjson.JSONObject;
+
 public class ResultBody {
     private String retCode;
     private String retMsg;
@@ -53,5 +55,15 @@ public class ResultBody {
     public static ResultBody httpIerror(){
         ResultCodeEnum resultCodeEnum = ResultCodeEnum.HTTPIERROR;
         return new ResultBody(resultCodeEnum.getRetCode(),resultCodeEnum.getRetMsg());
+    }
+
+    //未登录认证
+    public static ResultBody LoginError(){
+        ResultCodeEnum resultCodeEnum = ResultCodeEnum.LOGINERROR;
+        return new ResultBody(resultCodeEnum.getRetCode(),resultCodeEnum.getRetMsg());
+    }
+
+    public String toJsonString() {
+        return JSONObject.toJSONString(this);
     }
 }
