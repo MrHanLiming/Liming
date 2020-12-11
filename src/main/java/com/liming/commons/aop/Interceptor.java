@@ -43,15 +43,15 @@ public class Interceptor implements HandlerInterceptor {
             }
         }
         //校验登录
-        if (!this.checkLogin(handler)){
-            response.setStatus(HttpStatus.SC_OK);
-            response.setCharacterEncoding("utf-8");
-            response.setContentType("application/json; charset=utf-8");
-            response.getWriter().write(ResultBody.LoginError().toJsonString());
-            response.getWriter().flush();
-            response.getWriter().close();
-            return false;
-        }
+//        if (!this.checkLogin(handler)){
+//            response.setStatus(HttpStatus.SC_OK);
+//            response.setCharacterEncoding("utf-8");
+//            response.setContentType("application/json; charset=utf-8");
+//            response.getWriter().write(ResultBody.LoginError().toJsonString());
+//            response.getWriter().flush();
+//            response.getWriter().close();
+//            return false;
+//        }
         return true;
     }
 

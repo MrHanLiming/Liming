@@ -67,7 +67,7 @@
         FROM
             da_menu dm
         INNER JOIN rs_auth_menu ram ON dm.menu_id = ram.menu_id
-        INNER JOIN rs_user_role rur ON ram.auth_id = rur.role_id
+        INNER JOIN rs_user_role rur ON ram.role_id = rur.role_id
         WHERE
             dm.state = TRUE
         AND ram.state = TRUE
@@ -82,7 +82,7 @@
             WHERE
                 dm.state = TRUE
             AND ram.state = TRUE
-            AND ram.auth_id = #{userId }
+            AND ram.user_id = #{userId }
     </select>
 
 </mapper>
