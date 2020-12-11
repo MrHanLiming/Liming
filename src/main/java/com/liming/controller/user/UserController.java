@@ -26,12 +26,20 @@ public class UserController {
         Result userInfo = userService.userLogin(userEntity);
         return userInfo;
     }
-
+    //获取用户权限菜单--返回格式为前端路由器所需
     @GetMapping("/getUserMenu/{userId}")
     public Result getUserMenu(@PathVariable int userId){
         if (userId == 0)
             return Result.error("参数错误!");
         return userService.getUserMenu(userId);
+    }
+
+    //获取用户信息通过userId
+    @GetMapping("/getUserInfoByUserId/{userId}")
+    public Result<UserEntity> getUserInfoByUserId(@PathVariable("userId")Integer userId){
+        if (userId == 0)
+            return Result.error("参数错误!");
+        return userService.getUserInfoByUserId(userId);
     }
 
 }

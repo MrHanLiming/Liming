@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
         return Result.success("登录成功",userInfo);
     }
 
-    //查询菜单
+    //获取用户权限菜单--返回格式为前端路由器所需
     @Override
     public Result getUserMenu(int userId) {
         if (userId == 0){
@@ -57,6 +57,15 @@ public class UserServiceImpl implements UserService {
         List<MenuEntity> menuList = userMapper.queryMenuByUserId(userId);
         List<ResultMenuEntity> data = menuFormat(menuList);
         return Result.success("",data);
+    }
+
+    //查询个人信息通过userId
+    @Override
+    public Result getUserInfoByUserId(Integer userId) {
+        if (userId == 0){
+            return Result.error("参数错误!");
+        }
+        return Result.success("查询成功",userMapper.queryByUserId(userId));
     }
 
     //格式化菜单 树形结构

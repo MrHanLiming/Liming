@@ -27,9 +27,13 @@
         <result column="menu_component" jdbcType="VARCHAR" property="menuComponent"/>
     </resultMap>
 
+    <sql id="userClumn">
+        user_id, username, PASSWORD, phone_num, email, nickname, creattime, creat_userid, creat_nickname
+    </sql>
+
     <select id="queryByUserName" parameterType="java.lang.String" resultMap="userInfo">
         SELECT
-            user_id, username, PASSWORD, phone_num, email, nickname, creattime, creat_userid, creat_nickname
+            <include refid="userClumn"/>
         FROM
             da_user
         WHERE
@@ -45,7 +49,7 @@
         WHERE
             username = #{username }
         AND password = #{password }
-        AND state = TRUE
+        AND state = '1'
     </select>
 
     <sql id="menuSql">
@@ -69,9 +73,9 @@
         INNER JOIN rs_auth_menu ram ON dm.menu_id = ram.menu_id
         INNER JOIN rs_user_role rur ON ram.role_id = rur.role_id
         WHERE
-            dm.state = TRUE
-        AND ram.state = TRUE
-        AND rur.state = TRUE
+            dm.state = '1'
+        AND ram.state = '1'
+        AND rur.state = '1'
         AND rur.user_id = #{userId }
         UNION
             SELECT
@@ -80,9 +84,19 @@
                 da_menu dm
             INNER JOIN rs_auth_menu ram ON dm.menu_id = ram.menu_id
             WHERE
-                dm.state = TRUE
-            AND ram.state = TRUE
+                dm.state = '1'
+            AND ram.state = '1'
             AND ram.user_id = #{userId }
+    </select>
+
+    <select id="queryByUserId" parameterType="java.lang.Integer" resultMap="userInfo">
+        SELECT
+        <include refid="userClumn"/>
+        FROM
+            da_user
+        WHERE
+            user_id = #{userId }
+        AND state = '1'
     </select>
 
 </mapper>
