@@ -25,6 +25,8 @@ spring:
       connection-timeout: 30000
       connection-test-query: SELECT 1
 liming:
+  #是否开启ip拦截
+  needCheckIp: false
   #腾讯cos储存桶名称
   bucketName: cos-1257120178
   #bucket区域
@@ -34,6 +36,4 @@ liming:
   #腾讯secretKey
   secretKey: nKbeS8bpnV3Np5HF0ZyHOL5dEftqZ4LR
   #白名单
-  whiteRoster: 127.0.0.1,0:0:0:0:0:0:0:1
-  #是否开启ip拦截
-  isCheckIp: false
+  whiteRoster: 127.0.0.1

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@EnableConfigurationProperties(LimingConfig.class)
 @ConfigurationProperties("liming")
 public class LimingConfig {
 
@@ -15,6 +14,6 @@ public class LimingConfig {
 
     private String whiteRoster;
 
-    private boolean isCheckIp;
+    private boolean needCheckIp;
 
 }

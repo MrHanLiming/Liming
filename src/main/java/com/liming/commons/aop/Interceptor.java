@@ -33,7 +33,7 @@ public class Interceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         //是否开启ip校验
-        if (limingConfig.isCheckIp()){
+        if (limingConfig.isNeedCheckIp()){
             String userAddress = request.getRemoteAddr();
             String[] ipList = limingConfig.getWhiteRoster().split(",");
             if (!this.checkIp(ipList,userAddress)){
@@ -71,12 +71,12 @@ public class Interceptor implements HandlerInterceptor {
     private boolean checkIp(String[] ipList,String userAddress){
         if (ipList != null){
             for (String address : ipList){
-                if (!address.equals(userAddress)){
+                if (address.equals(userAddress)){
                     return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -97,6 +97,6 @@ public class Interceptor implements HandlerInterceptor {
             }
             //进行认证
         }
-        return true;
+        return false;
     }
 }
