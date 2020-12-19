@@ -8,4 +8,5 @@ public interface UserService {
     Result userLogin(UserEntity userEntity);
     Result getUserMenu(int userId);
     Result getUserInfoByUserId(Integer userId);
+    Result updateUserInfo(UserEntity userEntity);
 }

@@ -16,5 +16,6 @@ public class UserEntity {
     private Timestamp creatTime;
     private String creatUserId;
     private String creatNickName;
+    private boolean state;
 
 }

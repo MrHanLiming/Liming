@@ -99,4 +99,17 @@
         AND state = '1'
     </select>
 
+    <update id="updateUserInfo" parameterType="com.liming.entity.user.UserEntity">
+        UPDATE da_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="">username = #{username},</if>
+            <if test="">`password` = #{password},</if>
+            <if test="">phone_num = #{phoneNum},</if>
+            <if test="">email = #{email},</if>
+            <if test="">nickname = #{nickName},</if>
+        </trim>
+        WHERE
+            user_id = #{userId}
+    </update>
+
 </mapper>

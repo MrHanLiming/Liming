@@ -68,6 +68,15 @@ public class UserServiceImpl implements UserService {
         return Result.success("查询成功",userMapper.queryByUserId(userId));
     }
 
+    //修改用户信息
+    @Override
+    public Result updateUserInfo(UserEntity userEntity) {
+        if (userEntity == null){
+            return Result.error("参数有误");
+        }
+        return null;
+    }
+
     //格式化菜单 树形结构
     private List<ResultMenuEntity> menuFormat(List<MenuEntity> menuList){
         List<ResultMenuEntity> resultMenuList = null;

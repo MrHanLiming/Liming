@@ -13,4 +13,5 @@ public interface UserMapper {
     UserEntity queryByUsernamePassword(UserEntity userEntity);
     List<MenuEntity> queryMenuByUserId(@Param("userId") Integer userId);
     UserEntity queryByUserId(@Param("userId")Integer userId);
+    int updateUserInfo(UserEntity userEntity);
 }

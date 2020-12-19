@@ -42,4 +42,9 @@ public class UserController {
         return userService.getUserInfoByUserId(userId);
     }
 
+    @PostMapping("/updateUserInfo")
+    public Result updateUserInfo(@RequestBody UserEntity userEntity){
+        return null;
+    }
+
 }
