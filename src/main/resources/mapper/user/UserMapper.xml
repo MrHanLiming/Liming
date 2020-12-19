@@ -70,22 +70,24 @@
             <include refid="menuSql"/>
         FROM
             da_menu dm
-        INNER JOIN rs_auth_menu ram ON dm.menu_id = ram.menu_id
+        INNER JOIN rs_auth ram ON dm.menu_id = ram.auth_id
         INNER JOIN rs_user_role rur ON ram.role_id = rur.role_id
         WHERE
             dm.state = '1'
         AND ram.state = '1'
         AND rur.state = '1'
+        AND ram.auth_type = 'menu'
         AND rur.user_id = #{userId }
         UNION
             SELECT
                 <include refid="menuSql"/>
             FROM
                 da_menu dm
-            INNER JOIN rs_auth_menu ram ON dm.menu_id = ram.menu_id
+            INNER JOIN rs_auth ram ON dm.menu_id = ram.auth_id
             WHERE
                 dm.state = '1'
             AND ram.state = '1'
+            AND ram.auth_type = 'menu'
             AND ram.user_id = #{userId }
     </select>
 
