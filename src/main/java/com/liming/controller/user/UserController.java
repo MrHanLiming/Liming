@@ -31,22 +31,20 @@ public class UserController {
     //获取用户权限菜单--返回格式为前端路由器所需
     @GetMapping("/getUserMenu/{userId}")
     public Result getUserMenu(@PathVariable int userId){
-        if (userId == 0)
-            return Result.error("参数错误!");
         return userService.getUserMenu(userId);
     }
 
     //获取用户信息通过userId
     @GetMapping("/getUserInfoByUserId/{userId}")
     public Result<UserEntity> getUserInfoByUserId(@PathVariable("userId")Integer userId){
-        if (userId == 0)
-            return Result.error("参数错误!");
         return userService.getUserInfoByUserId(userId);
     }
 
     @PostMapping("/updateUserInfo")
     public Result updateUserInfo(@RequestBody UserEntity userEntity){
-        return null;
+        if (userEntity == null)
+            return Result.error("参数有误!");
+        return userService.updateUserInfo(userEntity);
     }
 
 }

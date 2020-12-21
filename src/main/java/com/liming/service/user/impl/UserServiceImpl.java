@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserService {
         if (userEntity == null){
             return Result.error("参数有误");
         }
-        return null;
+        userMapper.updateUserInfo(userEntity);
+        return Result.success();
     }
 
     //格式化菜单 树形结构
