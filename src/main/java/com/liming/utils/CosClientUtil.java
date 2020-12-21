@@ -1,4 +1,4 @@
-package com.liming.util;
+package com.liming.utils;
 
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;

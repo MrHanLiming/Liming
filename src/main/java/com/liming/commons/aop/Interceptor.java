@@ -1,18 +1,22 @@
 package com.liming.commons.aop;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.liming.commons.exception.exceptionhandler.resultbody.ResultBody;
 import com.liming.commons.interfacea.AuthLogin;
-import com.liming.commons.resultformat.Result;
 import com.liming.config.LimingConfig;
+import com.liming.utils.CookieUtil;
+import com.liming.utils.TokenUtil;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,15 +47,15 @@ public class Interceptor implements HandlerInterceptor {
             }
         }
         //校验登录
-//        if (!this.checkLogin(handler)){
-//            response.setStatus(HttpStatus.SC_OK);
-//            response.setCharacterEncoding("utf-8");
-//            response.setContentType("application/json; charset=utf-8");
-//            response.getWriter().write(ResultBody.LoginError().toJsonString());
-//            response.getWriter().flush();
-//            response.getWriter().close();
-//            return false;
-//        }
+        if (!this.checkLogin(handler,request)){
+            response.setStatus(HttpStatus.SC_OK);
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/json; charset=utf-8");
+            response.getWriter().write(ResultBody.LoginError().toJsonString());
+            response.getWriter().flush();
+            response.getWriter().close();
+            return false;
+        }
         return true;
     }
 
@@ -82,7 +86,7 @@ public class Interceptor implements HandlerInterceptor {
     /**
        校验是否已经登录
      */
-    private boolean checkLogin(Object handler){
+    private boolean checkLogin(Object handler,HttpServletRequest request){
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             //拦截所有的请求方法也就是方法上的注解，如果needLogin为false及返回true
@@ -96,6 +100,19 @@ public class Interceptor implements HandlerInterceptor {
                 return true;
             }
             //进行认证
+            Cookie[] cookies = request.getCookies();
+            try {
+                //从cookie获取token
+                String token = CookieUtil.getToken(cookies);
+                if (!StringUtils.isEmpty(token)){
+                    //根据token尝试获取userId不抛异常即为有效
+                    TokenUtil.getUserId(token);
+                    return true;
+                }
+            }catch (TokenExpiredException tokenExpiredException){
+                return false;
+            }
+            //认证结束
         }
         return false;
     }

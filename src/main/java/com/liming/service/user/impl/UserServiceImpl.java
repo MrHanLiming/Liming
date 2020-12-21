@@ -1,13 +1,13 @@
 package com.liming.service.user.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.liming.commons.resultformat.Result;
 import com.liming.entity.user.MenuEntity;
 import com.liming.entity.user.ResultMenuEntity;
 import com.liming.entity.user.UserEntity;
 import com.liming.mapper.user.UserMapper;
 import com.liming.service.user.UserService;
-import com.liming.util.EncryptionUtil;
+import com.liming.utils.EncryptionUtil;
+import com.liming.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,17 +34,21 @@ public class UserServiceImpl implements UserService {
 
     //用户登录
     @Override
-    public Result userLogin(UserEntity userEntity) {
+    public Result<UserEntity> userLogin(UserEntity userEntity) {
         String username = userEntity.getUsername();
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(userEntity.getPassword()))
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(userEntity.getPassword())){
             return Result.error("登录名或密码不能为空");
+        }
         //密码加密
         String password = EncryptionUtil.getInstance().MD5(userEntity.getPassword());
         userEntity.setPassword(password);
         //查询账号
         UserEntity userInfo = userMapper.queryByUsernamePassword(userEntity);
-        if (userInfo == null)
+        if (userInfo == null){
             return Result.error("账号或密码错误");
+        }
+        //获取加密Token
+        userInfo.setToken(TokenUtil.createToken(userInfo));
         return Result.success("登录成功",userInfo);
     }
 

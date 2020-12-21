@@ -17,5 +17,6 @@ public class UserEntity {
     private String creatUserId;
     private String creatNickName;
     private boolean state;
+    private String token;
 
 }

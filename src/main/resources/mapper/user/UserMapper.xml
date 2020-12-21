@@ -43,7 +43,7 @@
 
     <select id="queryByUsernamePassword" parameterType="com.liming.entity.user.UserEntity" resultMap="userInfo">
         SELECT
-            user_id, username, PASSWORD, phone_num, email, nickname, creattime, creat_userid, creat_nickname
+            user_id, username, phone_num, email, nickname, creattime, creat_userid, creat_nickname
         FROM
             da_user
         WHERE
@@ -104,11 +104,9 @@
     <update id="updateUserInfo" parameterType="com.liming.entity.user.UserEntity">
         UPDATE da_user
         <trim prefix="set" suffixOverrides=",">
-            <if test="">username = #{username},</if>
-            <if test="">`password` = #{password},</if>
-            <if test="">phone_num = #{phoneNum},</if>
-            <if test="">email = #{email},</if>
-            <if test="">nickname = #{nickName},</if>
+            <if test="phoneNum != null AND phoneNum != ''">phone_num = #{phoneNum},</if>
+            <if test="email != null AND email != ''">email = #{email},</if>
+            <if test="nickName != null AND nickName != ''">nickname = #{nickName},</if>
         </trim>
         WHERE
             user_id = #{userId}

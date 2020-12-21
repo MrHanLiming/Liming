@@ -1,4 +1,4 @@
-package com.liming.util;
+package com.liming.utils;
 
 import com.qcloud.cos.utils.StringUtils;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
