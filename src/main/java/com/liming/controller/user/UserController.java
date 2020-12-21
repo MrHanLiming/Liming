@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -45,6 +46,22 @@ public class UserController {
         if (userEntity == null)
             return Result.error("参数有误!");
         return userService.updateUserInfo(userEntity);
+    }
+
+    //修改密码
+    @PostMapping("/updatePassword")
+    public Result updatePassword(@RequestBody Map param,HttpServletResponse response){
+        Result result = userService.updatePassword(param);
+        //修改完密码清除cookie重新获取token
+        response.addCookie(CookieUtil.removeCookie());
+        return result;
+    }
+
+    //登出
+    @GetMapping("/loginOut")
+    public Result loginOut(HttpServletResponse response){
+        response.addCookie(CookieUtil.removeCookie());
+        return Result.error("登出成功");
     }
 
 }

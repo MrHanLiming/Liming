@@ -112,4 +112,12 @@
             user_id = #{userId}
     </update>
 
+    <update id="updatePasswordByUserId" parameterType="java.util.Map">
+        UPDATE da_user
+        SET
+            password = #{newPassword }
+        WHERE
+            user_id = #{userId }
+    </update>
+
 </mapper>

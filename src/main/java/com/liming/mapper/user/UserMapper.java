@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -14,4 +15,5 @@ public interface UserMapper {
     List<MenuEntity> queryMenuByUserId(@Param("userId") Integer userId);
     UserEntity queryByUserId(@Param("userId")Integer userId);
     void updateUserInfo(UserEntity userEntity);
+    void updatePasswordByUserId(Map param);
 }

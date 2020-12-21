@@ -6,6 +6,7 @@ import com.liming.entity.user.ResultMenuEntity;
 import com.liming.entity.user.UserEntity;
 import com.liming.mapper.user.UserMapper;
 import com.liming.service.user.UserService;
+import com.liming.utils.CookieUtil;
 import com.liming.utils.EncryptionUtil;
 import com.liming.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,39 @@ public class UserServiceImpl implements UserService {
         userMapper.updateUserInfo(userEntity);
         return Result.success();
     }
+
+    //修改用户密码
+    @Override
+    public Result updatePassword(Map param) {
+        if (param == null){
+            return Result.error("参数错误");
+        }
+        Integer userId = (Integer) param.get("userId");
+        UserEntity userEntity = userMapper.queryByUserId(userId);
+        if (userEntity == null){
+            return Result.error("当前用户有误");
+        }
+        String password = userEntity.getPassword();
+        if (StringUtils.isEmpty(password)){
+            return Result.error("当前用户有误");
+        }
+        String oldPassword = (String) param.get("oldPassword");
+        oldPassword = EncryptionUtil.getInstance().MD5(oldPassword);
+        if (!password.equals(oldPassword)){
+            return Result.error("原密码有误");
+        }
+        String newPassword = (String) param.get("newPassword");
+        if (StringUtils.isEmpty(newPassword)){
+            return Result.error("密码有误，请重新设置");
+        }
+        newPassword = EncryptionUtil.getInstance().MD5(newPassword);
+        param.put("newPassword",newPassword);
+        userMapper.updatePasswordByUserId(param);
+        return Result.success("修改成功");
+    }
+
+
+
 
     //格式化菜单 树形结构
     private List<ResultMenuEntity> menuFormat(List<MenuEntity> menuList){
