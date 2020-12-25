@@ -22,7 +22,7 @@ import java.util.Map;
 */
 public class TokenUtil {
 
-    /** token 过期时间: 10天 */
+    /** token 过期时间: 10小时 */
     public static final int CALENDARINTERVAL = 60*10;
 
     private static final String ALG = "HS256";
@@ -53,6 +53,46 @@ public class TokenUtil {
         return token;
     }
 
+    //根据Token获取userId
+    public static int getUserId(String token) throws TokenExpiredException{
+        Map<String, Claim> claims = verifyToken(token);
+        Claim userIdClaim = claims.get(ConstantConfig.COOKIE_B_USERID);
+        if (null == userIdClaim || StringUtils.isEmpty(userIdClaim.asInt())) {
+            // token 校验失败, 抛出Token验证非法异常
+            throw new TokenExpiredException("无效的Token");
+        }
+        return userIdClaim.asInt();
+    }
+
+    //获取username
+    public static String getUsername(String token){
+        return getByToken(token,ConstantConfig.COOKIE_B_USERNAME);
+    }
+    //获取昵称
+    public static String getNickname(String token){
+        return getByToken(token,ConstantConfig.COOKIE_B_NICKNAME);
+    }
+    //获取电话
+    public static String getPhonenum(String token){
+        return getByToken(token,ConstantConfig.COOKIE_B_PHONENUM);
+    }
+    //获取email
+    public static String getEmail(String token){
+        return getByToken(token,ConstantConfig.COOKIE_B_EMAIL);
+    }
+
+    /**
+     *  根据key获取value
+     * @param token
+     * @param key ConstantConfig 获取
+     * @return
+     */
+    private static String getByToken(String token,String key){
+        Map<String, Claim> claims = verifyToken(token);
+        Claim paramClaim = claims.get(key);
+        return paramClaim.asString();
+    }
+
     /** 解密token */
     private static Map<String, Claim> verifyToken(String token) throws TokenExpiredException{
         DecodedJWT jwt = null;
@@ -64,21 +104,6 @@ public class TokenUtil {
             throw new TokenExpiredException("无效的Token");
         }
         return jwt.getClaims();
-    }
-
-    /**
-     * 根据Token获取userId
-     * @param token
-     * @return userId
-     */
-    public static int getUserId(String token) throws TokenExpiredException{
-        Map<String, Claim> claims = verifyToken(token);
-        Claim userIdClaim = claims.get(ConstantConfig.COOKIE_B_USERID);
-        if (null == userIdClaim || StringUtils.isEmpty(userIdClaim.asInt())) {
-            // token 校验失败, 抛出Token验证非法异常
-            throw new TokenExpiredException("无效的Token");
-        }
-        return userIdClaim.asInt();
     }
 
 }
