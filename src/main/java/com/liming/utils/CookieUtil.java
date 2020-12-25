@@ -7,7 +7,9 @@ import javax.servlet.http.Cookie;
 
 public class CookieUtil {
 
-    /**
+    private final static int COOKIE_EXPIRE_TIME = 60*60*10;
+
+  /**
      * 创建cookie
      * setMaxAge()   该方法用于设置cookie的生存时间，传入的参数表示生存时间，是int型的--秒数值
      * 设置负数的秒值，等同于--添加cookie时没有调用该方法，则浏览器默认将cookie保存在内存里，当浏览器关闭时，cookie从内存中释放(没有了)。
@@ -24,7 +26,7 @@ public class CookieUtil {
         }
         Cookie cookie = new Cookie(key,v);
         cookie.setPath("/");
-        cookie.setMaxAge(60*60*10);
+        cookie.setMaxAge(COOKIE_EXPIRE_TIME);
         return cookie;
     }
 
