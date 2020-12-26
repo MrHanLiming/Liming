@@ -26,7 +26,8 @@ public class UserController {
         if (userEntity == null)
             return Result.error("用户信息不能为空");
         Result<UserEntity> userInfo = userService.userLogin(userEntity);
-        response.addCookie(CookieUtil.setValue(ConstantConfig.COOKIE_A_TOKEN,userInfo.getData().getToken()));
+        if (userInfo.getRetCode().equals("1"))
+            response.addCookie(CookieUtil.setValue(ConstantConfig.COOKIE_A_TOKEN,userInfo.getData().getToken()));
         return userInfo;
     }
     //获取用户权限菜单--返回格式为前端路由器所需
