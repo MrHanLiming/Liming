@@ -104,9 +104,9 @@
     <update id="updateUserInfo" parameterType="com.liming.entity.user.UserEntity">
         UPDATE da_user
         <trim prefix="set" suffixOverrides=",">
-            <if test="phoneNum != null AND phoneNum != ''">phone_num = #{phoneNum},</if>
-            <if test="email != null AND email != ''">email = #{email},</if>
-            <if test="nickName != null AND nickName != ''">nickname = #{nickName},</if>
+            <if test="phoneNum != null">phone_num = #{phoneNum},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="nickName != null">nickname = #{nickName},</if>
         </trim>
         WHERE
             user_id = #{userId}

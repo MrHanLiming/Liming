@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping("/loginOut")
     public Result loginOut(HttpServletResponse response){
         response.addCookie(CookieUtil.removeCookie());
-        return Result.error("登出成功");
+        return Result.success("登出成功");
     }
 
 }
