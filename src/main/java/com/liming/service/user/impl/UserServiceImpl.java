@@ -129,6 +129,8 @@ public class UserServiceImpl implements UserService {
                 resultMenuEntity.setIcon(menuEntity.getMenuIcon());
                 resultMenuEntity.setName(menuEntity.getMenuTitle());
                 resultMenuEntity.setParentId(menuEntity.getParentUuid());
+                resultMenuEntity.setHidden(menuEntity.isHidden());
+                resultMenuEntity.setChildren(new ArrayList());
                 nodeList.put(menuEntity.getMenuId(),resultMenuEntity);
             }
             for (MenuEntity menuEntity : menuList){
@@ -136,7 +138,6 @@ public class UserServiceImpl implements UserService {
                 if (resultMenuEntity.getParentId() == 0){
                     resultMenuList.add(resultMenuEntity);
                 }else {
-                    nodeList.get(menuEntity.getParentUuid()).setChildren(new ArrayList());
                     nodeList.get(menuEntity.getParentUuid()).getChildren().add(resultMenuEntity);
                 }
             }

@@ -17,5 +17,6 @@ public class MenuEntity {
     private int creatUserId;
     private String creatNickName;
     private String menuComponent;
+    private boolean hidden;
 
 }

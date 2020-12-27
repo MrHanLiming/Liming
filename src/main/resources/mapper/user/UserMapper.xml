@@ -25,6 +25,7 @@
         <result column="creat_userid" jdbcType="INTEGER" property="creatUserId"/>
         <result column="creat_nickname" jdbcType="VARCHAR" property="creatNickName"/>
         <result column="menu_component" jdbcType="VARCHAR" property="menuComponent"/>
+        <result column="hidden" jdbcType="BOOLEAN" property="hidden"/>
     </resultMap>
 
     <sql id="userClumn">
@@ -62,7 +63,8 @@
         dm.creattime,
         dm.creat_userid,
         dm.creat_nickname,
-        dm.menu_component
+        dm.menu_component,
+        dm.hidden
     </sql>
     
     <select id="queryMenuByUserId" parameterType="java.lang.Integer" resultMap="menuInfo">
