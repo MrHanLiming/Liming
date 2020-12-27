@@ -3,7 +3,7 @@
                scanPeriod="10 seconds">
     <property name="PROJECT_NAME" value="liming"/>
     <property name="log.path"
-              value="${LOG_PATH:-E:/logs/${PROJECT_NAME}}"/>
+              value="${LOG_PATH:-D:/logs/${PROJECT_NAME}}"/>
     <property name="LOG_FILE"
               value="${PROJECT_NAME}"/>
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>

@@ -54,7 +54,9 @@ public class UserController {
     public Result updatePassword(@RequestBody Map param,HttpServletResponse response){
         Result result = userService.updatePassword(param);
         //修改完密码清除cookie重新获取token
-        response.addCookie(CookieUtil.removeCookie());
+        if("1".equals(result.getRetCode())){
+            response.addCookie(CookieUtil.removeCookie());
+        }
         return result;
     }
 
