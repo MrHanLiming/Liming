@@ -26,6 +26,7 @@ public class CookieUtil {
         }
         Cookie cookie = new Cookie(key,v);
         cookie.setPath("/");
+        cookie.setDomain("yunwaigame.top");
         cookie.setMaxAge(COOKIE_EXPIRE_TIME);
         return cookie;
     }
@@ -49,6 +50,7 @@ public class CookieUtil {
         Cookie newCookie = new Cookie(ConstantConfig.COOKIE_A_TOKEN,null);
         newCookie.setMaxAge(0);
         newCookie.setPath("/");
+        newCookie.setDomain("yunwaigame.top");
         return newCookie;
     }
 }
