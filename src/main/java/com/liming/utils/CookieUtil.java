@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 public class CookieUtil {
 
     private final static int COOKIE_EXPIRE_TIME = 60*60*10;
+    private final static String COOKIE_DOMAIN = "hanliming.com";
 
   /**
      * 创建cookie
@@ -26,7 +27,7 @@ public class CookieUtil {
         }
         Cookie cookie = new Cookie(key,v);
         cookie.setPath("/");
-        cookie.setDomain("yunwaigame.top");
+        cookie.setDomain(COOKIE_DOMAIN);
         cookie.setMaxAge(COOKIE_EXPIRE_TIME);
         return cookie;
     }
@@ -50,7 +51,7 @@ public class CookieUtil {
         Cookie newCookie = new Cookie(ConstantConfig.COOKIE_A_TOKEN,null);
         newCookie.setMaxAge(0);
         newCookie.setPath("/");
-        newCookie.setDomain("yunwaigame.top");
+        newCookie.setDomain(COOKIE_DOMAIN);
         return newCookie;
     }
 }

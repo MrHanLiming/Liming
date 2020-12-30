@@ -100,10 +100,8 @@ public class Interceptor implements HandlerInterceptor {
                 return true;
             }
             //进行认证
-            Cookie[] cookies = request.getCookies();
             try {
-                //从cookie获取token
-                String token = CookieUtil.getToken(cookies);
+                String token = request.getHeader("token");
                 if (!StringUtils.isEmpty(token)){
                     //根据token尝试获取userId不抛异常即为有效
                     TokenUtil.getUserId(token);

@@ -44,9 +44,6 @@ public class TokenUtil {
                 .withClaim("aud", AUD)
                 .withClaim(ConstantConfig.COOKIE_B_USERID, userEntity.getUserId())
                 .withClaim(ConstantConfig.COOKIE_B_USERNAME,userEntity.getUsername())
-                .withClaim(ConstantConfig.COOKIE_B_NICKNAME,userEntity.getNickName())
-                .withClaim(ConstantConfig.COOKIE_B_PHONENUM,userEntity.getPhoneNum())
-                .withClaim(ConstantConfig.COOKIE_B_EMAIL,userEntity.getEmail())
                 .withIssuedAt(iatDate)
                 .withExpiresAt(expiresDate)
                 .sign(Algorithm.HMAC256(ConstantConfig.TOKEN_SECRET));
@@ -67,18 +64,6 @@ public class TokenUtil {
     //获取username
     public static String getUsername(String token){
         return getByToken(token,ConstantConfig.COOKIE_B_USERNAME);
-    }
-    //获取昵称
-    public static String getNickname(String token){
-        return getByToken(token,ConstantConfig.COOKIE_B_NICKNAME);
-    }
-    //获取电话
-    public static String getPhonenum(String token){
-        return getByToken(token,ConstantConfig.COOKIE_B_PHONENUM);
-    }
-    //获取email
-    public static String getEmail(String token){
-        return getByToken(token,ConstantConfig.COOKIE_B_EMAIL);
     }
 
     /**
